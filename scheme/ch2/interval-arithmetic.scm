@@ -19,8 +19,9 @@
 
 ;excercise 2.7
 ;define upper-bound and lower-bound
-(define (lower-bound xs) (car xs))
-(define (upper-bound xs) (cdr xs))
+(define (lower-bound xs)
+  (car xs))
+(define (upper-bound xs) (car (cdr xs)))
 
 ;excercise 2.8
 ;using reasoning analogous to alyssa's
@@ -41,4 +42,50 @@
 ;only of the intervals being added or substracted.
 ;2: Give examples to show that this is not true for multiplication or division.
 
+;excersive 2.10
+;Ben Bitdiddle, an expert systems programmer, looks over Alyssa's shoudler and
+;comments that it is not clear what it means to divide by an interval that
+;spans zero. Modify Alyssa's code to check for this condition and to signal an
+;error if it occurs.
+(define (div-interval-210 x y)
+  (if (or (eqv? (car (cdr x)) 0) (eqv? (car (cdr y)) 0))
+    "error cannot divide by zero"
+    (mul-interval
+      x
+      (make-interval (/ 1.0 (car (cdr y)))
+                     (/ 1.0 (car y))))))
 
+(define - sub-interval)
+(define + add-interval)
+
+(define (make-center-width c w) (make-interval (- c w) (+ c w)))
+(define (center i) (/ (+ (lower-bound i) (upper-bound i)) 2))
+(define (width i) (/ (- (upper-bound i) (lower-bound i)) 2))
+
+;excercise 2.12 define a constructor make-center-precent that takes a center
+;and a percentage tolerance and produces the desired interval. You must also
+;define a selector percent that produces the percentage tolerance for a given
+;interval. The center selector is the same as the one shown above.
+
+
+;excercise 2.13 What is wrong with follow code?
+(define (par1 r1 r2)
+  (div-interval (mul-interval r1 r2)
+                (add-interval r1 r2)))
+(define (par2 r1 r2)
+  (let ((one (make-interval 1 1)))
+    (div-interval
+     one (add-interval (div-interval one r1)
+                       (div-interval one r2)))))
+
+;exercise 2.15
+;She says that a formula to compute with intervals using
+;Alyssa's system will produce tighter error bounds if it can
+;be written in such a form that no variable that represents an uncertain
+;number is repeated. par2 is better for parallel resistences than par1.
+;Why?
+
+
+;excercise 2.16
+;explain Why equivalent algebraic expressions may lead to different answers.
+;Prove it wrong or proove if impossible?
