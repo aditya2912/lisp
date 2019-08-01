@@ -1,6 +1,5 @@
 #lang racket
-
-
+; memorise problem
 (define (read-ls l)
   (cond
     ((eq? l 0) '())
